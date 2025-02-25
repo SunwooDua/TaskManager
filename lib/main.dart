@@ -21,7 +21,6 @@ class TaskListScreen extends StatefulWidget {
 class _TaskListScreenState extends State<TaskListScreen> {
   final List<Map<String, dynamic>> tasks = [];
   final TextEditingController taskController = TextEditingController();
-  bool? _isChecked = false;
 
   void addTask() {
     if (taskController.text.isNotEmpty) {
@@ -35,6 +34,12 @@ class _TaskListScreenState extends State<TaskListScreen> {
   void toggleTask(int index, bool? newValue) {
     setState(() {
       tasks[index]['isChecked'] = newValue ?? false;
+    });
+  }
+
+  void deleteTask(int index) {
+    setState(() {
+      tasks.removeAt(index);
     });
   }
 
@@ -63,6 +68,10 @@ class _TaskListScreenState extends State<TaskListScreen> {
                   title: Text(tasks[index]['text']),
                   value: tasks[index]['isChecked'],
                   onChanged: (newValue) => toggleTask(index, newValue),
+                  secondary: IconButton(
+                    onPressed: () => deleteTask(index),
+                    icon: Icon(Icons.delete),
+                  ),
                 );
               },
             ),
